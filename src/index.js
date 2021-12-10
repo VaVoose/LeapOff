@@ -72,7 +72,7 @@ class MyGame extends Phaser.Scene
 
         this.matter.add.mouseSpring();
 
-        pLine = this.add.line(protagonist.x, protagonist.y, sun.x, sun.y, 140, 0, 0x6666ff);
+        pLine = this.add.line(0,0,0,0,0,0,0x6666ff);
 
         // this.tweens.add({
         //     targets: logo,
@@ -82,6 +82,7 @@ class MyGame extends Phaser.Scene
         //     yoyo: true,
         //     loop: -1
         // });
+        console.log(protagonist, sun);
     }
 
     update(){
