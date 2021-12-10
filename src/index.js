@@ -4,6 +4,8 @@ import starImg from './assets/star.png';
 import obstacleImg from './assets/obstacle.png';
 import protagImg from './assets/protagonist.png';
 
+var pLine, protagonist, sun;
+
 class MyGame extends Phaser.Scene
 {
     constructor ()
@@ -40,7 +42,7 @@ class MyGame extends Phaser.Scene
             }
         });
 
-        this.matter.add.image(window.innerWidth / 2, 200, 'protagonist', null, {
+        protagonist = this.matter.add.image(400, 200, 'protagonist', null, {
             mass: 0,
             shape: {
                 type: 'circle',
@@ -50,7 +52,7 @@ class MyGame extends Phaser.Scene
 
         
 
-        var sun = this.matter.add.image(window.innerWidth/2, window.innerHeight/2, 'star', null, {
+        sun = this.matter.add.image(400, 400, 'star', null, {
             isStatic: true,
             shape: {
                 type: 'circle',
@@ -70,6 +72,8 @@ class MyGame extends Phaser.Scene
 
         this.matter.add.mouseSpring();
 
+        pLine = this.add.line(protagonist.x, protagonist.y, sun.x, sun.y, 140, 0, 0x6666ff);
+
         // this.tweens.add({
         //     targets: logo,
         //     y: 450,
@@ -79,13 +83,18 @@ class MyGame extends Phaser.Scene
         //     loop: -1
         // });
     }
+
+    update(){
+        pLine.setTo(protagonist.x, protagonist.y, sun.x, sun.y);
+
+    }
 }
 
 const config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 800,
+    height: 800,
     scene: MyGame,
     backgroundColor: '#000000',
     physics: {
