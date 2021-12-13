@@ -50,8 +50,6 @@ class MyGame extends Phaser.Scene
             }
         })
 
-        
-
         sun = this.matter.add.image(400, 400, 'star', null, {
             isStatic: true,
             shape: {
@@ -87,7 +85,30 @@ class MyGame extends Phaser.Scene
 
     update(){
         pLine.setTo(protagonist.x, protagonist.y, sun.x, sun.y);
+        
+        if (this.input.activePointer.isDown) {
+            //this multiplier will definitely need to be reduced.
+            //It's set high to make it apparent when the force actually applies.
+            var forceMultiplier = 0.001;
+            var coords = pLine.geom;
+            //Find distance between X and Y
+            var deltaX = coords.x1 - coords.x2;
+            var deltaY = coords.y2 - coords.y1;
+            /*
+            Geometry! Unsure if this needs to be documented or not. Remove if not useful.
+            I am basically treating the force as a normalized vector.
+            This force vector is 90 degrees from the angle of the line.
+            We may need to increase the angle difference to achieve the desired effect.
+            I then get the normalized X and Y components and combine with multiplier.
+            */
+            var lineAngle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+            var forceAngle = (lineAngle - 90);
 
+            protagonist.applyForce( {
+                x: Math.cos(forceAngle) * forceMultiplier,
+                y: Math.sin(forceAngle) * forceMultiplier
+            } )
+        }
     }
 }
 
